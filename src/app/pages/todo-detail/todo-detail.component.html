@@ -1,0 +1,9 @@
+<h2>Todo Details</h2>
+<div *ngIf="todo" style="border:1px solid #ccc; padding:20px; border-radius:8px;">
+    <p><strong>ID:</strong> {{ todo.id }} </p>
+    <p><strong>Title:</strong> {{ todo.title }} </p>
+    <p>
+        <strong>Status:</strong>
+        {{ todo.completed ? 'Completed' : 'Not Completed' }}
+    </p>
+</div>

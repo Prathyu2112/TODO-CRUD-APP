@@ -1,0 +1,153 @@
+<div class="min-h-screen bg-gray-100 px-6 py-6">
+    <!-- Page Title -->
+     <h1 class="text-3xl font-bold mb-6 text-slate-800">
+       Todo Management
+       </h1>
+       <!--==============================  ADD TODO GRID  =======================================-->
+        
+        <div class="grid grid-cols-1
+        sm:grid-cols-2 lg:grid-cols-3
+        gap-6 place-items-center">
+          <input 
+            type="text"
+            placeholder="Enter todo title"
+            [(ngModel)]="newTodoTitle"
+            class="flex-1 border rounded-lg px-4
+            py-2 focus:outline-none focus:ring-2
+            focus:ring-green-400"
+            />
+
+          <label class="flex itams-cenetr gap-2
+          text-sm">
+          <input type="checkbox"
+          [(ngModel)]="newTodoCompleted" />
+          Completed
+          </label>
+        
+          <button
+            (click)="addTodo()"
+            class="bg-green-600 text-white px-6
+            py-2 rounded-lg hover:bg-green-700 transition"
+            >
+              Add
+          </button>
+
+          <!--============================= TODO CARDS ============================-->>
+          
+          <div
+             class="grid gap-6 "
+             style="grid-template-columns:
+             repeat(auto-fill, minmax(280px, 1fr));"
+          >
+          <div
+            *ngFor="let todo of todos"
+            class="rounded-2xl p-5 shadow-lg"
+            style="background-color: wheat;"
+           >
+
+           <!--================= Title ===================-->
+
+           <h2
+             class="text-xl font-semibold
+             text-center mb-3 break-words"
+             style="color: steelblue;
+             text-shadow: 0 0 2px white;"
+            >
+              {{ todo.title }}
+            </h2>
+
+            <!--================ Status ================-->
+
+            <div class="flex justify-center mb-4">
+                 <span
+                   class="px-4 py-1 rounded-full
+                   text-sm font-semibold"
+                   [ngClass]="
+                      todo.completed
+                         ? 'bg-green-200
+                         text-green-800'
+                         : 'bg-red-200 text-red-800'
+                         "
+                   >
+                   {{ todo.completed ? 'Completed' : 'Pending' }}
+                </span>
+            </div>
+
+            <!--============= Button ===============-->
+
+            <div class="flex justify-center gap-4">
+            <button
+                (click)="openEditForm(todo)"
+                class="px-6 py-2 rounded-lg border
+                border-yellow-500 text-yellow-700
+                hover:bg-yellow-100 transition"
+                >
+               Edit
+            </button>
+
+            <button
+                (click)="deleteTodo(todo.id)"
+                class="px-6 py-2 rounded-lg
+                border border-red-500 text-red-700
+                hover:bg-red-100 transition"
+                >
+                 Delete
+            </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--==================================== EDIT MODAL ====================================-->
+
+<!--MODAL BACKDROP-->
+<div
+   *ngIf="showEditForm"
+   class="fixed inset-0 bg-black
+   bg-opacity-40 flex items-center
+   justify-center z-50"
+   >
+   <!--MODAL BOX-->
+   <div class="bg-white
+   rounded-xl p-6 w-80 shadow-xl"
+   (click)="$event.stopPropagation()"
+   >
+    <h3 class="text-lg font-semibold mb-4">
+        Edit Todo
+    </h3>
+    <!--TITLE INPUT-->
+    <input
+      type="text"
+      [(ngModel)]="selectedTodo.title"
+      class="w-full border rounded
+      px-3 py-2 mb-4"
+      
+      />
+      <!--STATUS-->
+       <label class="flex items-center gap-2 mb-4">
+         <input type="checkbox"
+         [(ngModel)]="selectedTodo.completed" />
+         Completed
+       </label>
+       <!--CANCEL ACTION-->
+       <div class="flex justify-end gap-3">
+        <button
+          (click)="closeEditForm()"
+          class="px-4 py-2 rounded border"
+          >
+           Cancel
+        </button>
+        <!--UPDATE ACTION-->
+        <button
+           class="px-4 py-2 rounded
+           bg-green-600 text-white
+           hover:bg-green-700"
+           (click)="updateTodo()"
+           >
+            Update   
+        </button>
+       </div>
+   </div>
+</div>
