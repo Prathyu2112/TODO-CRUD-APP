@@ -53,11 +53,11 @@ export class TodoListComponent implements OnInit {
     title: this.newTodoTitle,
     completed: this.newTodoCompleted
   };
-  this.todoService.addTodo(newTodo).subscribe(() => {
+  this.todoService.addTodo(newTodo).subscribe((response: any) => {
    
-    //UI Update
+    //Use RESPONSE ID
     this.todos.unshift({
-      id: Date.now(),//temporary ID
+      id: response.id,
       ...newTodo
     });
 
