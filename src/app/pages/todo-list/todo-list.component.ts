@@ -28,14 +28,17 @@ export class TodoListComponent implements OnInit {
   title: '',
   completed: false
  };
-
-
+ //paginatedTodos: any[] = [];  //variables 
+ currentPage = 1;
+ itemsPerPage = 5;
+ 
  //constructor
  constructor(private todoService: TodoService, private router: Router) {}
 
  //Lifecycle
  ngOnInit(): void {
   this.getTodos();
+  //this.fetchTodos();
  }
  getTodos() {
   this.todoService.getTodos().subscribe(res => {
@@ -111,4 +114,25 @@ export class TodoListComponent implements OnInit {
     }
     );
   }
+  //Pagination
+  get totalPages(): number {
+  return Math.ceil(this.todos.length / this.itemsPerPage);
+  }
+
+ get paginatedTodos() {
+  const start = (this.currentPage - 1) * this.itemsPerPage;
+  return this.todos.slice(start, start + this.itemsPerPage);
+ }
+
+ nextPage() {
+  if (this.currentPage < this.totalPages) {
+    this.currentPage++;
+  }
+ }
+
+ prevPage() {
+  if (this.currentPage > 1) {
+    this.currentPage--;
+  }
+ }
 }
